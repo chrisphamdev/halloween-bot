@@ -1,4 +1,4 @@
-# This module contains all basic commands and functionality of the bot
+# This module contains all basic commands of the bot
 
 import discord
 from discord.ext.commands import Bot
@@ -22,13 +22,13 @@ async def help(ctx):
 async def on_ready():
     print('Halloween Bot has been deployed.')
 
+# bot info
 @bot.command()
 async def info(ctx):
     info = 'This bot was created by Wesley Heath and Chris Pham for the UoA Esports server. Any feedback will be appreciated.'
     embed = EmbedCreator('Halloween Bot', 'Information', info, 'Powered by UoA Esports.')
     await ctx.send(embed=embed.get_embed())
 
-  
 @bot.command()
 async def ping(ctx):
     await ctx.send(f'Pong! This message took {round(bot.latency * 1000)}ms to respond.')
