@@ -8,12 +8,13 @@ embed.set_footer(text=footerMessage)
 await ctx.send(embed=embed)
 '''
 
+
 class EmbedCreator:
     footerMessage = 'Powered by UoA Esports.'
 
-    def __init__(self, title='None', boldTitle='None', values='', footer=footerMessage):
+    def __init__(self, title='None', bold_title='None', values='', footer=footerMessage):
         self.embed=discord.Embed(title=title, color=0x0dd5d9)
-        self.embed.add_field(name=boldTitle, value=values, inline=False)
+        self.embed.add_field(name=bold_title, value=values, inline=False)
         self.embed.set_footer(text=footer)
     
     def set_thumbnail(self, thumbnail_url):
@@ -21,4 +22,3 @@ class EmbedCreator:
     
     def get_embed(self):
         return self.embed
-        

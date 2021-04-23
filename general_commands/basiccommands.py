@@ -8,13 +8,17 @@ import time
 from discord import client
 
 from main import bot
-from helper.embedCreator import EmbedCreator
+from helper.EmbedCreator import EmbedCreator
+
 
 # Custom help message - to be done
 bot.remove_command('help')
+
+
+# Replace default help command to this one.
 @bot.command()
 async def help(ctx):
-    await ctx.send('The ruleset can be accessed here.')
+    await ctx.send('The rule-set can be accessed here.')
     # TO BE ADDED: GAME RULE
 
 
@@ -22,14 +26,16 @@ async def help(ctx):
 async def on_ready():
     print('Halloween Bot has been deployed.')
 
+
 # bot info
 @bot.command()
 async def info(ctx):
-    info = 'This bot was created by Wesley Heath and Chris Pham for the UoA Esports server. Any feedback will be appreciated.'
-    embed = EmbedCreator('Halloween Bot', 'Information', info, 'Powered by UoA Esports.')
+    info_str = 'This bot was created by Wesley Heath and Chris Pham for the UoA Esports server. Any feedback will be ' \
+           'appreciated. '
+    embed = EmbedCreator('Halloween Bot', 'Information', info_str, 'Powered by UoA Esports.')
     await ctx.send(embed=embed.get_embed())
+
 
 @bot.command()
 async def ping(ctx):
     await ctx.send(f'Pong! This message took {round(bot.latency * 1000)}ms to respond.')
-

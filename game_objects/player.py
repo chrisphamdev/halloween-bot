@@ -3,13 +3,14 @@
 
 from tinydb import TinyDB, Query
 
+
 class Player:
-    def __init__(self, playerID):
-        self.playerID = playerID
+    def __init__(self, player_id):
+        self.player_id = player_id
         self.inventory = []
 
     # add an item of the class Item to the player's inventory
-    def itemAcquired(self, item):
+    def item_acquired(self, item):
         self.inventory += [item]
 
     # TO BE IMPLEMENTED
