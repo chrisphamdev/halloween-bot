@@ -20,10 +20,7 @@ bs4
 Install the modules by running the following commands in terminal:
 
 ```
-pip install discord
-pip install asyncio
-pip install tinydb
-pip install bs4
+pip install -r requirements.txt
 ```
 
 ## Execution
