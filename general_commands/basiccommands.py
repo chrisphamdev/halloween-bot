@@ -1,11 +1,11 @@
 # This module contains all basic commands of the bot
 
-import discord
-from discord.ext.commands import Bot
-from discord.ext import commands, tasks
+# import discord
+# from discord.ext.commands import Bot
+# from discord.ext import commands, tasks
 import asyncio
-import time
-from discord import client
+# import time
+# from discord import client
 
 from main import bot
 from helper.EmbedCreator import EmbedCreator
