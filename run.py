@@ -9,6 +9,6 @@ import json
 from main import bot
 
 with open('token.json', 'r') as file_to_read:
-    token = json.load(file_to_read)
+   token = json.load(file_to_read)
 
 bot.run(token)

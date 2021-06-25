@@ -6,6 +6,8 @@ from discord.ext import commands, tasks
 import asyncio
 import time
 from discord import client
+from discord.utils import get
+import json
 
 from main import bot
 from helper.EmbedCreator import EmbedCreator
@@ -54,6 +56,28 @@ async def teardown(ctx):
                     break
         except Exception as e:
             print(e)
+
+
+@bot.command()
+async def role_setup(ctx, *, channel_id=None):
+    # If the target channel is unspecified, it will send the message to the current channel
+    if channel_id is None:
+        channel_id = ctx.channel.id
+    else:
+        channel_id = int(channel_id)
+    
+    # Fetch the target channel
+    target_channel = get(ctx.guild.channels, id=channel_id)
+
+    # Send a message and react to that message
+    message = await target_channel.send('React to this message to get the Hunter role.')
+    
+    message_data = {'role_message': message.id}
+
+    with open('message_id.json', 'w') as file:
+        json.dump(message_data, file, indent=4)
+
+    await message.add_reaction('1\N{variation selector-16}\N{combining enclosing keycap}')
 
 
 # Replace default help command to this one.
