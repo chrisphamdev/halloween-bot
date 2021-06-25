@@ -12,4 +12,4 @@ import asyncio
 bot = commands.Bot(command_prefix=';')
 
 # Import the implemented functionalities from different modules
-# from general_commands.basiccommands import *
+from general_commands.basiccommands import *
