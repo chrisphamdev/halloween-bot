@@ -40,18 +40,20 @@ async def teardown(ctx):
     def reply_check(message):
         return message.content in ['y', 'yes'] and message.channel == channel
 
-    # TODO: add custom timeout message.
-    await bot.wait_for('message', check=reply_check, timeout=5.0)
-
     try:
-        for category in category_channel_list:
-            if category.name == "Halloween Event":
-                for channel in category.channels:
-                    await channel.delete()
-                await category.delete()
-                break
-    except Exception as e:
-        print(e)
+        await bot.wait_for('message', check=reply_check, timeout=5.0)
+    except asyncio.TimeoutError:
+        await channel.send("```Command to teardown has expired. Try again.```")
+    else:
+        try:
+            for category in category_channel_list:
+                if category.name == "Halloween Event":
+                    for channel in category.channels:
+                        await channel.delete()
+                    await category.delete()
+                    break
+        except Exception as e:
+            print(e)
 
 
 # Replace default help command to this one.
