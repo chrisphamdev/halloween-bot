@@ -12,8 +12,6 @@ http://uoaesports.com/discord
 
 ```
 discord.py
-asyncio
-tinydb
 bs4
 ```
 
