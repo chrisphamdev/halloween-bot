@@ -13,7 +13,7 @@ from helper.EmbedCreator import EmbedCreator
 import json
 
 
-@client.event
+@bot.event
 async def on_raw_reaction_add(data):
     message_id = None
     with open('message_id.json', 'r') as file:
@@ -22,15 +22,12 @@ async def on_raw_reaction_add(data):
 
     print(message_id)
     if data.message_id == message_id:
-        for txt_channel in data.member.guild.channels:
-            if txt_channel.name == 'info':
-                host_channel = txt_channel
-                break
-        msg = await host_channel.fetch_message(data.message_id)
-
         # replace this with id of the 'Hunter' role
-        role_id = 760392204710969354
+        role_id = 857795407437758496
 
-        if data.emoji.name == 'crossed_swords':
+        if data.emoji.name == '1️⃣':
             role = get(data.member.guild.roles, id=role_id)
-            await data.member.add_roles(role)
+            try:
+                await data.member.add_roles(role)
+            except Exception as e:
+                print(e)
