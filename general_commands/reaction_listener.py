@@ -16,13 +16,13 @@ import json
 @bot.event
 async def on_raw_reaction_add(data):
     message_id = None
-    with open('message_id.json', 'r') as file:
-        message_id_dict = json.load(file)
-        message_id = message_id_dict['role_message']
+    with open('config.json', 'r') as file:
+        config = json.load(file)
+        message_id = config['role_message']
 
     if data.message_id == message_id:
         # replace this with id of the 'Hunter' role
-        role_id = 857795407437758496
+        role_id = config['role_id']
 
         if data.emoji.name == '1️⃣':
             role = get(data.member.guild.roles, id=role_id)
@@ -31,16 +31,17 @@ async def on_raw_reaction_add(data):
             except Exception as e:
                 print(e)
 
+
 @bot.event
 async def on_reaction_remove(data):
     message_id = None
-    with open('message_id.json', 'r') as file:
-        message_id_dict = json.load(file)
-        message_id = message_id_dict['role_message']
+    with open('config.json', 'r') as file:
+        config = json.load(file)
+        message_id = config['role_message']
     
     if data.message_id == message_id:
         # replace this with id of the 'Hunter' role
-        role_id = 857795407437758496
+        role_id = config['role_id']
 
         if data.emoji.name == '1️⃣':
             role = get(data.member.guild.roles, id=role_id)
