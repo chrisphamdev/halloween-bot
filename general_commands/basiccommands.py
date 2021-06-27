@@ -11,6 +11,7 @@ import json
 
 from main import bot
 from helper.EmbedCreator import EmbedCreator
+from discord.colour import Colour
 
 
 # Custom help message - to be done
@@ -78,6 +79,37 @@ async def role_setup(ctx, *, channel_id=None):
         json.dump(message_data, file, indent=4)
 
     await message.add_reaction('1\N{variation selector-16}\N{combining enclosing keycap}')
+
+
+# This command delete the role from the server (when the event ends)
+@bot.command()
+async def hunt_the_hunters(ctx):
+    # Find the 'Hunter' role
+    guild = ctx.guild
+    role_to_remove = None
+    for role in guild.roles:
+        if 'Hunter' in role.name:
+            role_to_remove = role
+            break
+
+    await role.delete()
+    await ctx.send('```The Hunter role has been deleted```')
+
+
+# Give a medal role to winnners
+@bot.command()
+async def the_winners_are(ctx):
+
+    guild = ctx.guild
+    winner_role = await guild.create_role(name='Halloween Event Winner', colour=Colour.gold())
+
+     # Add the role members in the command to the 'winners' list
+    winners = []
+    for member in ctx.message.mentions:
+        winners += [member]
+
+    for player in winners:
+        await player.add_roles(winner_role)
 
 
 # Replace default help command to this one.

@@ -20,7 +20,6 @@ async def on_raw_reaction_add(data):
         message_id_dict = json.load(file)
         message_id = message_id_dict['role_message']
 
-    print(message_id)
     if data.message_id == message_id:
         # replace this with id of the 'Hunter' role
         role_id = 857795407437758496
@@ -29,5 +28,23 @@ async def on_raw_reaction_add(data):
             role = get(data.member.guild.roles, id=role_id)
             try:
                 await data.member.add_roles(role)
+            except Exception as e:
+                print(e)
+
+@bot.event
+async def on_reaction_remove(data):
+    message_id = None
+    with open('message_id.json', 'r') as file:
+        message_id_dict = json.load(file)
+        message_id = message_id_dict['role_message']
+    
+    if data.message_id == message_id:
+        # replace this with id of the 'Hunter' role
+        role_id = 857795407437758496
+
+        if data.emoji.name == '1️⃣':
+            role = get(data.member.guild.roles, id=role_id)
+            try:
+                await data.member.remove_role(role)
             except Exception as e:
                 print(e)
