@@ -60,7 +60,7 @@ async def teardown(ctx):
 
 
 @bot.command()
-async def role_setup(ctx, *, channel_id=None):
+async def role_setup(ctx, channel_id=None):
     # If the target channel is unspecified, it will send the message to the current channel
     if channel_id is None:
         channel_id = ctx.channel.id
@@ -85,31 +85,40 @@ async def role_setup(ctx, *, channel_id=None):
 @bot.command()
 async def hunt_the_hunters(ctx):
     # Find the 'Hunter' role
+    role_name = "Hunter"
     guild = ctx.guild
     role_to_remove = None
+    # Finds the role object to be removed from the guild.
     for role in guild.roles:
-        if 'Hunter' in role.name:
+        if role.name == role_name:
             role_to_remove = role
             break
 
-    await role.delete()
-    await ctx.send('```The Hunter role has been deleted```')
+    try:
+        await role_to_remove.delete()
+        await ctx.send('```The Hunter role has been deleted.```')
+    except discord.HTTPException:
+        await ctx.send(f'```Connection issue: Failed to delete {role_name}, try again.```')
 
 
-# Give a medal role to winnners
+# Give a medal role to winners
 @bot.command()
-async def the_winners_are(ctx):
+async def reward_winners(ctx):
 
+    winner_role = None
     guild = ctx.guild
-    winner_role = await guild.create_role(name='Halloween Event Winner', colour=Colour.gold())
-
-     # Add the role members in the command to the 'winners' list
-    winners = []
-    for member in ctx.message.mentions:
-        winners += [member]
-
-    for player in winners:
-        await player.add_roles(winner_role)
+    try:
+        winner_role = await guild.create_role(name='Halloween Event Winner 2021', colour=Colour.gold())
+    except discord.HTTPException:
+        await ctx.send(f'```Connection issue: failed to create role, try Again.```')
+    # Check to see if winner_role is not None.
+    if winner_role:
+        # Add the role members in the command to the 'winners' list
+        for member in ctx.message.mentions:
+            try:
+                await member.add_roles(winner_role)
+            except discord.HTTPException:
+                await ctx.send(f'```Connection issue: Failed to add roles to {member}, try again.```')
 
 
 # Replace default help command to this one.
