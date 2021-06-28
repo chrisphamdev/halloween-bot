@@ -1,11 +1,11 @@
 # This module contains all basic commands of the bot
 
-# import discord
+import discord
 # from discord.ext.commands import Bot
 # from discord.ext import commands, tasks
 import asyncio
-import time
-from discord import client
+# import time
+# from discord import client
 from discord.utils import get
 import json
 
@@ -146,11 +146,11 @@ async def reward_winners(ctx):
                 await ctx.send(f'```Connection issue: Failed to add roles to {member}, try again.```')
 
 
-# Replace default help command to this one.
-@bot.command()
-async def help(ctx):
-    await ctx.send('The rule-set can be accessed here.')
-    # TO BE ADDED: GAME RULE
+# # Replace default help command to this one.
+# @bot.command()
+# async def help(ctx):
+#     await ctx.send('The rule-set can be accessed here.')
+#     # TO BE ADDED: GAME RULE
 
 
 @bot.event
