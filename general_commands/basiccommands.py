@@ -4,11 +4,14 @@
 # from discord.ext.commands import Bot
 # from discord.ext import commands, tasks
 import asyncio
-# import time
-# from discord import client
+import time
+from discord import client
+from discord.utils import get
+import json
 
 from main import bot
 from helper.EmbedCreator import EmbedCreator
+from discord.colour import Colour
 
 
 # Custom help message - to be done
@@ -54,6 +57,93 @@ async def teardown(ctx):
                     break
         except Exception as e:
             print(e)
+
+
+@bot.command()
+async def role_setup(ctx, channel_id=None):
+
+    role = None
+    try:
+        # Create role and save it to file.
+        role = await ctx.guild.create_role(
+            name='Hunter',
+            # Appears in the audit log.
+            reason='Add Hunter role for the Halloween Event.',
+            colour=Colour.gold()
+        )
+    except discord.HTTPException:
+        await ctx.send('```Connection Issue: Cannot create Hunter role, try again.```')
+
+    if role:
+        # If the target channel is unspecified, it will send the message to the current channel
+        if channel_id is None:
+            channel_id = ctx.channel.id
+        else:
+            channel_id = int(channel_id)
+
+        # Fetch the target channel
+        target_channel = get(ctx.guild.channels, id=channel_id)
+
+        # Send a message and react to that message
+        message = await target_channel.send('React to this message to get the Hunter role.')
+        # Create dictionary to save data to config json file.
+        message_data = {'role_message': message.id, 'role_id': role.id}
+
+        with open('config.json', 'w+') as file:
+            json.dump(message_data, file, indent=4)
+
+        await message.add_reaction('1\N{variation selector-16}\N{combining enclosing keycap}')
+
+
+# This command delete the role from the server (when the event ends)
+@bot.command()
+async def hunt_the_hunters(ctx):
+    # Find the 'Hunter' role
+    role_name = "Hunter"
+    guild = ctx.guild
+    role_to_remove = None
+
+    with open('config.json', 'r') as file:
+        config = json.load(file)
+        try:
+            role_id = config['role_id']
+        except KeyError:
+            await ctx.send('```Cannot find role_id in configs, will search role manually...```')
+
+    if role_id:
+        role_to_remove = get(ctx.member.guild.roles, id=role_id)
+    else:
+        # Finds the role object to be removed from the guild.
+        for role in guild.roles:
+            if role.name == role_name:
+                role_to_remove = role
+                break
+
+    try:
+        await role_to_remove.delete()
+        await ctx.send('```The Hunter role has been deleted.```')
+    except discord.HTTPException:
+        await ctx.send(f'```Connection issue: Failed to delete {role_name}, try again.```')
+
+
+# Give a medal role to winners
+@bot.command()
+async def reward_winners(ctx):
+
+    winner_role = None
+    guild = ctx.guild
+    try:
+        winner_role = await guild.create_role(name='Halloween Event Winner 2021', colour=Colour.gold())
+    except discord.HTTPException:
+        await ctx.send(f'```Connection issue: failed to create role, try Again.```')
+    # Check to see if winner_role is not None.
+    if winner_role:
+        # Add the role members in the command to the 'winners' list
+        for member in ctx.message.mentions:
+            try:
+                await member.add_roles(winner_role)
+            except discord.HTTPException:
+                await ctx.send(f'```Connection issue: Failed to add roles to {member}, try again.```')
 
 
 # Replace default help command to this one.
