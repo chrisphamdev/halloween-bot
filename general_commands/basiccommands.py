@@ -65,7 +65,7 @@ async def role_setup(ctx, channel_id=None):
     role = None
     try:
         # Create role and save it to file.
-        role = ctx.guild.create_role(
+        role = await ctx.guild.create_role(
             name='Hunter',
             # Appears in the audit log.
             reason='Add Hunter role for the Halloween Event.',
@@ -87,7 +87,7 @@ async def role_setup(ctx, channel_id=None):
         # Send a message and react to that message
         message = await target_channel.send('React to this message to get the Hunter role.')
         # Create dictionary to save data to config json file.
-        message_data = {'role_message': message.id, 'role_id': role}
+        message_data = {'role_message': message.id, 'role_id': role.id}
 
         with open('config.json', 'w+') as file:
             json.dump(message_data, file, indent=4)

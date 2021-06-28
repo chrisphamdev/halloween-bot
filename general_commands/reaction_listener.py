@@ -33,7 +33,7 @@ async def on_raw_reaction_add(data):
 
 
 @bot.event
-async def on_reaction_remove(data):
+async def on_raw_reaction_remove(data):
     message_id = None
     with open('config.json', 'r') as file:
         config = json.load(file)
@@ -44,8 +44,10 @@ async def on_reaction_remove(data):
         role_id = config['role_id']
 
         if data.emoji.name == '1️⃣':
-            role = get(data.member.guild.roles, id=role_id)
+            guild = bot.get_guild(data.guild_id)
+            role = get(guild.roles, id=role_id)
+            member = guild.get_member(data.user_id)
             try:
-                await data.member.remove_role(role)
+                await member.remove_roles(role)
             except Exception as e:
                 print(e)

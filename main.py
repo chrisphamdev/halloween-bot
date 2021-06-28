@@ -9,7 +9,10 @@ from discord.ext.commands import Bot
 from discord.ext import commands
 import asyncio
 
-bot = commands.Bot(command_prefix=';')
+intents = discord.Intents.default()
+intents.members = True
+
+bot = commands.Bot(command_prefix=';', intents=intents)
 
 # Import the implemented functionalities from different modules
 from general_commands.basiccommands import *
