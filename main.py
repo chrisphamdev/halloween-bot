@@ -5,17 +5,25 @@
     All use of this bot must be approved by its authors.
 """
 
-# import asyncio
-# import discord
+import asyncio
 # from discord.ext.commands import Bot
+import discord
 from discord.ext import commands
-
-# Import the implemented functionalities from different modules
-# TODO Create an extension for these commands.
-from general_commands.basiccommands import *
-from general_commands.reaction_listener import *
+from config.ConfigHelper import ConfigHelper
 
 intents = discord.Intents.default()
 intents.members = True
 
 bot = commands.Bot(command_prefix=';', intents=intents)
+
+# Initialise ConfigHelper object and attach it to the bot.
+config_helper = ConfigHelper()
+bot.config_helper = config_helper
+
+
+@bot.event
+async def on_ready():
+    # Future extensions will be called here.
+    bot.load_extension('cogs.admin_commands')
+    bot.load_extension('cogs.reaction_listener')
+    print('Halloween Bot has been deployed.')
