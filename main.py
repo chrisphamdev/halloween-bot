@@ -5,9 +5,9 @@
     All use of this bot must be approved by its authors.
 """
 
-import asyncio
-import discord
-from discord.ext.commands import Bot
+# import asyncio
+# import discord
+# from discord.ext.commands import Bot
 from discord.ext import commands
 
 # Import the implemented functionalities from different modules
