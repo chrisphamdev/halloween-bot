@@ -6,11 +6,16 @@
 """
 
 # TO RUN THE BOT, RUN THIS FILE
-import json
-
+from helper.JsonHelper import JsonHelper
 from main import bot
+from distest.patches import patch_target
 
-with open('token.json', 'r') as file_to_read:
-    token = json.load(file_to_read)
+# This patches out bot message checking allows for an external testing bot to run tests.
+BOT_TESTING = True
+
+if BOT_TESTING:
+    bot = patch_target(bot)
+
+token = JsonHelper.json_read('token.json')
 
 bot.run(token)
