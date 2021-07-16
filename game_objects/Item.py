@@ -1,5 +1,6 @@
 # This class represents an item in the game
 
+
 class Item:
     def __init__(self, item_name: str, item_class, icon_url=None, special_amount=0):
         self.item_name = item_name
@@ -10,15 +11,3 @@ class Item:
         # for example, a potion with special amount of -3 deals 3hp to its target
         self.special_amount = special_amount
 
-
-class Potion(Item):
-    pass
-
-
-class Weapon(Item):
-    pass
-
-
-# buff the player's attack? idk
-class AmplifyingPotion(Potion):
-    pass
